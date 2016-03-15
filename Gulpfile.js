@@ -13,7 +13,7 @@ gulp.task('js', function(){
     .pipe(plumber())
     .pipe(browserify())
     .pipe(rename('app.js'))
-    .pipe(gulp.dest('dist/js'))
+    .pipe(gulp.dest('dist/assets/js'))
 })
 
 gulp.task('css', function(){
@@ -21,7 +21,7 @@ gulp.task('css', function(){
     .pipe(plumber())
     .pipe(stylus({errors: true, 'include css': true}))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('dist/assets/css'))
 })
 
 gulp.task('partials', function(){
@@ -46,23 +46,25 @@ gulp.task('layouts', function(){
 })
 
 gulp.task('build', function(){
-  gulp.src('dist/js/app.js')
+  gulp.src('dist/assets/js/app.js')
     .pipe(plumber())
     .pipe(jsmin())
     .pipe(gulp.dest('dist/js'))
   
-  gulp.src('dist/css/*.css')
+  gulp.src('dist/assets/css/*.css')
     .pipe(cssmin())
     .pipe(gulp.dest('dist/css'))
 })
 
-gulp.task('default', ['js', 'css', 'layouts', 'partials', 'pages'], function(){
+gulp.task('watch', function(){
   gulp.watch('src/stylus/*.styl', ['css'])
   gulp.watch('src/js/*.js', ['js'])
   gulp.watch('src/templates/layouts/*.jade', ['layouts'])
   gulp.watch('src/templates/layouts/partials/*.jade', ['partials'])
   gulp.watch('src/templates/pages/*.jade', ['pages'])
 })
+
+gulp.task('default', ['js', 'css', 'layouts', 'partials', 'pages', 'watch'])
 
 
 
