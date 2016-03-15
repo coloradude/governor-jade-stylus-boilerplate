@@ -1,0 +1,194 @@
+// Variables
+
+$pink = #d81767
+$teal = #00b9b4
+$grey1 = #f7f7f9 
+$grey2 = #98949e
+$standardWidth = 1400px
+
+// Base Styles
+*
+  font-family 'Open Sans'
+  outline none
+  box-sizing border-box
+
+h1
+  font-size 40px
+  font-weight 400
+  -webkit-margin-before 0
+  -webkit-margin-after 0
+
+p
+  font-weight 300
+  font-size 20px
+  line-height 1.9
+
+// Utility Classes
+
+.pink
+  color $pink
+  
+.teal
+  color $teal
+  
+.white
+  color #FFF
+  
+.grey-bg
+  background-color $grey1
+
+.teal-bg
+  background-color $teal
+
+.relative
+  position relative
+  
+// Callouts
+.callout-container
+  width 100%
+  display flex
+  justify-content center
+
+.callout-wrapper
+  max-width $standardWidth
+  display flex
+  justify-content center
+  margin 65px 0
+
+.img-area, .callout-headline
+  width 50%
+  
+.img-left
+  text-align right
+
+.img-right
+  text-align left
+
+.callout-headline
+  display flex
+  flex-direction column
+  justify-content center
+
+.headline-right
+  padding-left 100px
+
+.headline-left
+  padding-right 100px
+
+.callout-header
+  margin-bottom 20px
+
+.callout-subtext
+  margin-top 0
+  color $grey2
+  max-width 475px
+  
+// Info Section
+
+.info-main
+  padding 100px 150px
+
+.info-subtext
+  max-width 55%
+  margin-bottom 0
+
+.info-continued
+  margin-top 0
+
+.desktop
+  width 700px
+  position absolute
+  top -470px
+  right 0
+
+.text-bottom
+  display flex
+  justify-content flex-start
+  
+.benefits
+  display flex
+  align-content flex-start
+  flex-wrap wrap
+  width 50%
+  li
+    display flex
+    justify-content flex-start
+    align-items center
+    width 50%
+    height 100px
+
+.logos
+
+
+//Footer 
+
+footer
+  background-color #1c0b2a
+
+.cta-container
+  width 100%
+  display flex
+  justify-content center
+
+.cta-wrapper
+  width 43%
+  display flex
+  flex-direction column
+  margin 175px 0
+  .cta-header, .cta-subtext
+    text-align center
+  .cta-header
+    something nothing
+  .cta-subtext
+    color #FFF
+    
+.sign-up-container
+  height 100vh
+  width 100%
+  display flex
+  justify-content center
+  align-items center
+
+.sign-up-wrapper
+  display flex
+  flex-direction column
+  align-items center
+
+.early-access-input
+  width 350px
+  background-color transparent
+  border none
+  padding 20px
+  font-size 20px
+  color #FFF
+  ::placeholder 
+    color #FFF
+    text-align center
+  ::-webkit-input-placeholder 
+     text-align center
+  :-moz-placeholder  /* Firefox 18- */
+     text-align center
+  ::-moz-placeholder   /* Firefox 19+ */
+     text-align center  
+  :-ms-input-placeholder   
+     text-align center
+
+.early-access-submit
+  width 310px
+  height 50px
+  background-color $pink
+  color #FFF
+  margin-top 35px
+  font-size 16px
+  border none
+  
+.grey-line
+  width 435px
+  height 2px
+  background-color #695f73
+
+
+
+
+
+
