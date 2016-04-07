@@ -1,10 +1,18 @@
 // Variables
 
-$pink = #d81767
-$teal = #54C2BD
-$purple = #210e2d
-$grey1 = #f7f7f9 
-$grey2 = #98949e
+$navy = #0d3a59
+$beige = #fff7ec
+$brown = #e5d5be
+$grey = #cfd8df
+$ltGreen = #b6e293
+$green = #b6e293
+$yellowGreen = #c3ca6b
+$yellow = #feeb75
+$salmon = #f8928e
+$red = #f0576b
+$ltBlue = #50bdc4
+$blue = #0899b4
+
 $standardWidth = 1400px
 
 // Base Styles
@@ -15,7 +23,14 @@ $standardWidth = 1400px
 
 h1
   line-height 1.25
-  font-size 1.7em
+  font-size 2.3em
+  font-weight 400
+  -webkit-margin-before 0
+  -webkit-margin-after 0
+
+h2
+  line-height 1.15
+  font-size 2em
   font-weight 400
   -webkit-margin-before 0
   -webkit-margin-after 0
@@ -24,6 +39,10 @@ p, li
   font-weight 300
   font-size 1.1em
   line-height 1.9
+
+body
+  background-color $beige
+  overflow-x hidden
 
 // Utility Classes
 
@@ -36,32 +55,66 @@ p, li
   width 100%
   max-width 1400px
 
-.pink
-  color $pink
-  
-.teal
-  color $teal
-  
+.navy
+  color $navy
+.lt-beige
+  color $beige
+.brown
+  color $brown
+.grey
+  color $grey
+.lt-green
+  color $ltGreen
+.green
+  color $green
+.yellow-green
+  color $yellowGreen
+.yellow
+  color $yellow
+.salmon
+  color $salmon
+.red
+  color $red
+.lt-blue
+  color $ltBlue
+.blue
+  color $blue
 .white
   color #FFF
   
+.navy-bg
+  background-color $navy
+.lt-beige-bg
+  background-color $beige
+.brown-bg
+  background-color $brown
+.grey-bg
+  background-color $grey
+.lt-green-bg
+  background-color $ltGreen
+.green-bg
+  background-color $green
+.yellow-green-bg
+  background-color $yellowGreen
+.yellow-bg
+  background-color $yellow
+.salmon-bg
+  background-color $salmon
+.red-bg
+  background-color $red
+.lt-blue-bg
+  background-color $ltBlue
+.blue-bg
+  background-color $blue
 .white-bg
   background-color #FFF
-  
-.grey-bg
-  background-color $grey1
 
-.teal-bg
-  background-color $teal
 
-.purple-bg
-  background-color $purple
-
-.pink-bg
-  background-color $pink
-  
 .relative
   position relative
+
+.absolute
+  position absolute
   
 .invisible
   opacity 0
@@ -78,10 +131,10 @@ p, li
 // Animations
 
 .fade-in
-  animation fade-in .4s .4s forwards
+  animation fade-in .2s .2s forwards
 
 .fade-out
-  animation fade-out .4s forwards
+  animation fade-out .2s forwards
   
 @keyframes fade-in
   from
@@ -95,6 +148,25 @@ p, li
   to
     opacity 0
     display none
+    
+.second-slide
+  animation left100 1s forwards
+
+@keyframes left100
+  from
+    transform translateX(0)
+  to
+    transform translateX(-100vw)
+
+.third-slide
+  animation left200 1s forwards
+  
+@keyframes left200
+  from
+    transform translateX(-100vw)
+  to
+    transform translateX(-200vw)
+
   
  
 // Hero
@@ -143,6 +215,9 @@ p, li
   align-items center
   margin 65px 0
 
+.callout-subtext
+  color $navy
+
 .img-area
   width 55%
 
@@ -179,18 +254,21 @@ p, li
   color $grey2
   max-width 475px
   
-// Info Section
+// Benefits Section
 
-.info-section
+
+
+.benefits
   display flex
   justify-content center
+  background linear-gradient(to right, $ltGreen 0%, $ltBlue 100%)
 
-.info-main
+.benefits-main
   padding 100px 50px 0 50px
   max-width $standardWidth
   width 100%
 
-.info-subtext
+.benefits-subtext
   max-width 45%
   margin-bottom 0
   font-size 1.1rem
@@ -208,7 +286,7 @@ p, li
   display flex
   justify-content flex-start
   
-.benefits
+.benefits-list
   display flex
   align-content flex-start
   flex-wrap wrap
@@ -228,7 +306,6 @@ p, li
   display flex
   justify-content center
   align-items center
-  padding-top 160px
   
 .logos .logo
   width 100%
@@ -251,10 +328,13 @@ p, li
   flex-direction column
   align-items flex-start
 
+.features-subtext
+  text-align right
+
 .features-headline
   display flex
   flex-direction column
-  align-items flex-start
+  align-items flex-end
   
 .features
   display flex
@@ -263,20 +343,26 @@ p, li
   width 100%
   li
     display flex
-    justify-content flex-start
+    justify-content flex-end
     align-items center
     width 50%
     height 100px
 
 //Footer 
 
-footer
-  background-color #1c0b2a
-
 .cta-container
   width 100%
   display flex
   justify-content center
+  
+.background-slider
+  top 0
+  left 0
+  width 300vw
+  height 100vh
+  z-index -1
+  transform translateX(0) 
+  background linear-gradient(to right, $ltGreen 0%, $ltBlue 33.3333%, $red 66.6666%, $yellow 100%)
 
 .cta-wrapper
   width 43%
@@ -285,10 +371,6 @@ footer
   margin 175px 0
   .cta-header, .cta-subtext
     text-align center
-  .cta-header
-    something nothing
-  .cta-subtext
-    color #FFF
     
 .sign-up-container
   height 100vh
@@ -313,16 +395,31 @@ footer
   
 .frame-1
   opacity 1
+  
+.email-error
+  position absolute
+  top -15px
 
 .frame-2, .frame-3
   opacity 0
 
-.frame-2 .relative
+.frame-2 .username-wrapper
   display flex
   align-items center
 
-.check
+.check-icon, .x-icon
   width 25px
+  position absolute
+  top 20px
+  right 0
+  
+.check-icon *
+  fill $green
+.x-icon *
+  fill $red
+
+.at
+  positon absolute
 
 .early-access-input
   width 350px
@@ -331,8 +428,11 @@ footer
   padding 20px
   font-size 20px
   color #FFF
+  text-align center
   &::placeholder 
     text-align center
+    color #FFF
+    font-weight 200
 
 .early-access-submit
   width 310px
@@ -340,17 +440,18 @@ footer
   color #FFF
   margin-top 35px
   font-size 16px
-  border none
-  background-color $pink
+  border 2px solid #FFF
+  background-color transparent
   
-.grey-line
+.white-line
   width 435px
   height 1px
-  background-color #695f73
+  background-color #FFF
 
 .thanks
   font-size 1.1em
   margin-top 50px
+  text-align center
 
 
 

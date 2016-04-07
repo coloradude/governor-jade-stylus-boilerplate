@@ -23,7 +23,8 @@
     "jade": "^1.11.0",
     "lodash.debounce": "^4.0.3",
     "mithril": "^0.2.3",
-    "stylus": "^0.54.2"
+    "stylus": "^0.54.2",
+    "svg-browserify": "0.0.2"
   },
   "devDependencies": {
     "browser-sync": "^2.11.1"

@@ -9,11 +9,14 @@ const autoprefixer = require('gulp-autoprefixer')
 const jade = require('gulp-jade')
 const concat = require('gulp-concat')
 const order = require('gulp-order')
+const svg = require('svg-browserify')
 
 gulp.task('js', function(){
   return gulp.src('src/js/app.js', { read: false })
     .pipe(plumber())
-    .pipe(browserify())
+    .pipe(browserify({
+        transform: svg
+      }))
     .pipe(rename('app.js'))
     .pipe(gulp.dest('dist/assets/js'))
 })
@@ -24,7 +27,8 @@ gulp.task('css', function(){
     .pipe(order([
       'fonts.styl',
       'normalize.styl',
-      'main.styl'
+      'main.styl',
+      'causes.styl'
     ]))
     .pipe(concat('styles.styl'))
     .pipe(stylus({errors: true, 'include css': true}))

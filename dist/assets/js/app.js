@@ -2464,13 +2464,21 @@ module.exports = debounce;
 })
 
 },{}],3:[function(require,module,exports){
-const m = require('mithril')
-const debounce = require('lodash.debounce')
+var m = require('mithril')
+var debounce = require('lodash.debounce')
+
+var checkIcon = require('../svg/check.svg')
+var xIcon = require('../svg/x.svg')
+
+var staging = 'https://sam-server-staging.herokuapp.com'
+var local = 'http://localhost:3000'
+
+var signUpContainer = document.getElementById('sign-up-container')
 
 var SubscribeForm = {}
 
 SubscribeForm.Model = {
-  apiURL: m.prop('http://localhost:3000'),
+  apiURL: m.prop(local),
   email: m.prop(),
   user_id: m.prop()
 }
@@ -2488,7 +2496,7 @@ SubscribeForm.API = {
   checkUsername : function(username){
     return m.request({
       method: 'GET',
-      url: SubscribeForm.Model.apiURL() + '/api/v1/users/available/' + username
+      url: SubscribeForm.Model.apiURL() + '/api/v1/users/available-username/' + encodeURIComponent(username)
     })
   },
 
@@ -2523,95 +2531,113 @@ SubscribeForm.controller = function(){
   this.frame2.classList = m.prop('hidden')
   this.frame3.classList = m.prop('hidden')
   this.at = m.prop()
-  this.check = m.prop('actually-invisible')
-  this.x = m.prop('actually-invisible')
+  this.check = m.prop('hidden')
+  this.x = m.prop('hidden')
+  this.slideOver = m.prop()
 
   this.email = m.prop()
   this.username = m.prop()
-  this.validUsername = m.prop()
+  this.usernameTaken = m.prop()
+  this.isValidUsername = function(username){
+    return /^([0-9a-z\_]){3,24}$/gi.test(username)
+  }
+  this.emailError = m.prop()
 
   return this
 }
 
 SubscribeForm.view = function(ctrl){
-  return m('.sign-up-wrapper',
-    m('.frame-1', {class: ctrl.frame1.classList()},
-      m('input.early-access-input', {
-        placeholder: 'Enter your email for early access',
-        oninput: m.withAttr('value', ctrl.email)
-      }),
-      m('.grey-line'),
-      m('button.early-access-submit', {
-        onclick: function(){
-          SubscribeForm.Model.email(ctrl.email())
-          SubscribeForm.API.createUser()
-            .then(function(res){
-              SubscribeForm.Model.user_id(res._id)
-              ctrl.frame1.classList('fade-out')
-              ctrl.frame2.classList('fade-in')
-          }).catch(function(res){
-            console.log(res.err)
-          })
-        }
-      }, 'Make A Difference')
-    ),
-    m('.frame-2', {class: ctrl.frame2.classList()},
-      m('span.username-instructions', 'Select a username for your SAM profile'),
-      m('.relative',
-        m('span.at', {class: ctrl.at()} ,'@'),
+  return [
+    m('.background-slider.absolute', {class: ctrl.slideOver()}),
+    m('.sign-up-wrapper',
+      m('.frame-1.relative', {class: ctrl.frame1.classList()},
+        m('.email-error.red', ctrl.emailError()),
         m('input.early-access-input', {
-          placeholder: 'Enter a desired username',
-          oninput: function(){
-            ctrl.username(this.value)
-            if (this.value.length > 0){
-              SubscribeForm.API.checkUsername(this.value)
-                .then(function(res){
-                  console.log(res)
-                  if (res.length === 0){
-                    ctrl.at('teal')
-                    ctrl.x('hidden actually-visible')
-                    ctrl.check('visible actually-visible')
-                    ctrl.validUsername(true)
-                  } else {
-                    ctrl.at('pink')
-                    ctrl.check('hidden actually-visible')
-                    ctrl.x('visible actually-visible')
-                    ctrl.validUsername(false)
-                  }
-                }).catch(function(res){
-                  console.log(res.err)
-                  ctrl.validUsername(false)
+          placeholder: 'Enter your email for early access',
+          oninput: m.withAttr('value', ctrl.email)
+        }),
+        m('.white-line'),
+        m('button.early-access-submit', {
+          onclick: function(){
+            SubscribeForm.Model.email(ctrl.email())
+            SubscribeForm.API.createUser()
+              .then(function(res){
+                ctrl.slideOver('second-slide')
+                SubscribeForm.Model.user_id(res._id)
+                ctrl.frame1.classList('fade-out')
+                ctrl.frame2.classList('fade-in')
+            }).catch(function(res){
+              ctrl.emailError(res.err)
+            })
+          }
+        }, 'Make A Difference')
+      ),
+      m('.frame-2', {class: ctrl.frame2.classList()},
+        m('span.username-instructions', 'Select a username for your SAM profile'),
+        m('.relative.username-wrapper',
+          m('span.at', {class: ctrl.at()} ,'@'),
+          m('input.early-access-input', {
+            placeholder: 'Enter a desired username',
+            oninput: function(){
+              ctrl.username(this.value)
+              if (ctrl.username().length > 0 && ctrl.isValidUsername(ctrl.username())){
+                SubscribeForm.API.checkUsername(this.value)
+                  .then(function(res){
+                    if (res.length === 0){
+                      ctrl.x('hidden')
+                      ctrl.check('')
+                      ctrl.usernameTaken(false)
+                    } else {
+                      ctrl.check('hidden')
+                      ctrl.x('visible')
+                      ctrl.usernameTaken(true)
+                    }
+                  }).catch(function(res){
+                    ctrl.usernameTaken(true)
+                  })
+              } else if (ctrl.username().length > 2 && !ctrl.isValidUsername(ctrl.username())){
+                ctrl.x('')
+                ctrl.check('hidden')
+              } else {
+                ctrl.x('hidden')
+                ctrl.check('hidden')
+              }
+            }
+          }),
+          m('.check-icon', {class: ctrl.check()}, m.trust(checkIcon)),
+          m('.x-icon', {class: ctrl.x()}, m.trust(xIcon))
+        ),
+        m('.white-line'),
+        m('button.early-access-submit', {
+          onclick: function(){
+            if (ctrl.isValidUsername(ctrl.username()) && !ctrl.usernameTaken()){
+              SubscribeForm.API.reserveUsername(ctrl.username())
+                .then(function(){
+                  ctrl.slideOver('third-slide')
+                  ctrl.frame2.classList('fade-out')
+                  ctrl.frame3.classList('fade-in')
+                }).catch(function(err){
+                  console.log(err)
                 })
             }
           }
-        }),
-        m('img.check', {src: '../../../assets/img/check.svg', class: ctrl.check()})//,
-        // m('img', {src: '../img/error.svg', class: ctrl.x})
+        }, 'Reserve A Username')
       ),
-      m('.grey-line'),
-      m('button.early-access-submit', {
-        onclick: function(){
-          if (ctrl.validUsername()){
-            console.log(ctrl.username())
-            SubscribeForm.API.reserveUsername(ctrl.username())
-              .then(function(){
-                ctrl.frame2.classList('fade-out')
-                ctrl.frame3.classList('fade-in')
-              }).catch(function(err){
-                console.log(err)
-              })
-          }
-        }
-      }, 'Reserve A Username')
-    ),
-    m('.frame-3', {class: ctrl.frame3.classList()},
-      m('img.thanks-for-registering', {src: '../../../assets/img/thanks-for-registering.png'}),
-      m('span.thanks', 'Thanks ',
-        m('span.teal', '@' + ctrl.username())
-      ,' your profile has been reserved :)')
+      m('.frame-3', {class: ctrl.frame3.classList()},
+        m('img.thanks-for-registering', {src: '/dist/assets/img/thanks-for-registering.png'}),
+        m('span.thanks', 'Thanks ',
+          m('span.teal', '@' + ctrl.username())
+        ,' your profile has been reserved :)')
+      )
     )
-  )
+  ]
 }
 
-m.mount(document.getElementById('sign-up-form'), SubscribeForm)
-},{"lodash.debounce":1,"mithril":2}]},{},[3])
+m.mount(signUpContainer, SubscribeForm)
+},{"../svg/check.svg":4,"../svg/x.svg":5,"lodash.debounce":1,"mithril":2}],4:[function(require,module,exports){
+module.exports = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\r\n<svg version=\"1.1\" id=\"Validation_x5F_Check\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"\r\n\t x=\"0px\" y=\"0px\" viewBox=\"0 0 25 25\" enable-background=\"new 0 0 25 25\" xml:space=\"preserve\">\r\n<g>\r\n\t<g>\r\n\t\t<path fill=\"#54C2BD\" d=\"M12.5,24.5c-6.6,0-12.1-5.4-12-12.2C0.6,5.8,6,0.4,12.7,0.5c6.5,0.1,11.8,5.4,11.8,12\r\n\t\t\tC24.5,19.1,19.1,24.5,12.5,24.5z M23,12.5C22.9,6.7,18.3,2,12.5,2C6.7,2,2,6.7,2,12.5C2,18.3,6.8,23,12.5,23\r\n\t\t\tC18.3,23,22.9,18.3,23,12.5z\"/>\r\n\t\t<path fill=\"#54C2BD\" d=\"M11.6,14.7c0.5-0.5,0.9-1,1.3-1.5c1.5-1.6,2.9-3.3,4.4-4.9c0.3-0.4,0.7-0.5,1.2-0.3\r\n\t\t\tc0.4,0.1,0.6,0.4,0.7,0.8c0,0.3-0.1,0.6-0.3,0.8c-1.6,1.8-3.2,3.6-4.8,5.4c-0.5,0.6-1,1.1-1.5,1.7c-0.3,0.3-0.6,0.5-1,0.4\r\n\t\t\tc-0.2,0-0.3-0.1-0.5-0.2c-1.3-1-2.6-2.1-3.9-3.1c-0.3-0.3-0.5-0.6-0.4-1.1c0.1-0.4,0.4-0.7,0.8-0.8c0.3-0.1,0.6,0,0.9,0.2\r\n\t\t\tc1,0.8,2.1,1.7,3.1,2.5C11.5,14.6,11.5,14.7,11.6,14.7z\"/>\r\n\t</g>\r\n</g>\r\n</svg>\r\n";
+
+},{}],5:[function(require,module,exports){
+module.exports = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\r\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\r\n<svg version=\"1.1\" id=\"x-icon\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"\r\n\t x=\"0px\" y=\"0px\" viewBox=\"0 0 25 25\" enable-background=\"new 0 0 25 25\" xml:space=\"preserve\">\r\n<path fill=\"#0B3B58\" d=\"M12.5,24.5c-6.6,0-12.1-5.4-12-12.2C0.6,5.8,6,0.4,12.7,0.5c6.5,0.1,11.8,5.4,11.8,12\r\n\tC24.5,19.1,19.1,24.5,12.5,24.5z M23,12.5C22.9,6.7,18.3,2,12.5,2C6.7,2,2,6.7,2,12.5C2,18.3,6.8,23,12.5,23\r\n\tC18.3,23,22.9,18.3,23,12.5z\"/>\r\n<path fill=\"#0B3B58\" d=\"M16.8,14.9L14,12.4l2.5-2.8c0.4-0.4,0.3-1.1-0.1-1.5c-0.4-0.4-1.1-0.3-1.5,0.1L12.4,11L9.6,8.5\r\n\tC9.2,8.1,8.5,8.1,8.1,8.6S7.8,9.6,8.2,10l2.8,2.5l-2.5,2.8c-0.4,0.4-0.3,1.1,0.1,1.5c0.4,0.4,1.1,0.3,1.5-0.1l2.5-2.8l2.8,2.5\r\n\tc0.4,0.4,1.1,0.3,1.5-0.1C17.3,15.9,17.2,15.3,16.8,14.9z\"/>\r\n</svg>\r\n";
+
+},{}]},{},[3])

@@ -1,98 +1,106 @@
 //- doctype html
 head
-  link(href='../../assets/css/styles.css' rel='stylesheet')
+  link(href='/dist/assets/css/styles.css' rel='stylesheet')
 
-.hero.full-width.white.purple-bg
-  .hero-laptop
-    img(src='../../assets/img/hero_laptop.png')
-  .hero-headline
-    h1.hero-header You're already taking action across the web. Now let's quantify it.
-    p.hero-subtext Access the largest network of causes you care about with SAM. Your profile lets you track, measure and amplofy your social impact over time, all around the world. Keeping your activity involved on the front lines of change.
-  button.scroll-to-footer.pink-bg Reserve a Username
+//- .hero.full-width.white.purple-bg(-section='Hero Section')
+//-   .hero-laptop
+//-     img(src='../../assets/img/hero_laptop.png')
+//-   .hero-headline
+//-     h1.hero-header(gv-text -label='Hero Heading') You're already taking action across the web. Now let's quantify it.
+//-     p.hero-subtext(gv-textarea -label='Hero Textarea') Access the largest network of causes you care about with SAM. Your profile lets you track, measure and amplofy your social impact over time, all around the world. Keeping your activity involved on the front lines of change.
+//-   button.scroll-to-footer.pink-bg Reserve a Username
 
-.callout-container.full-width.callout-1.relative.white-bg
+.callout-container.full-width.callout-1.relative(-section='Callout Section 1')
   .callout-wrapper.section-wrapper
     .img-area.img-left
-      img(src='../../assets/img/stay_connected.png')
+      img(src='../../assets/img/stay_connected.png' gv-image -label='First Callout Image')
     .callout-headline.std-padding-left
-      h1.callout-header.teal Actions are Disconnected
-      p.callout-subtext You sign the petitions, vote, and take action across the web. Where does it all go?
-.callout-container.grey-bg
+      h1.callout-header.navy(gv-text -label='Callout 1 Headline') The Good You Do is Disconnected
+      p.callout-subtext(gv-textarea -label='Callout 1 Body Text') You're taking actions to help the world across multiple websites. Where do they all go?
+.callout-container
   .callout-wrapper.section-wrapper
     .callout-headline.std-padding-left
-      h1.callout-header.pink Tie Those Actions Together
-      p.callout-subtext SAM takes all of your actions across the platforms you're already using and displays them into one unique profile, catered to you.
+      h1.callout-header.red(gv-text -label='Callout 2 Headline') Tie it All Together
+      p.callout-subtext(gv-textarea -label='Callout 2 Body Text') SAM tracks all of your compassionate actions across the platforms you;re already using and displays them in one unique profile, catered to you.
     .img-area.img-right
-      img(src='https://placehold.it/600x300')
-.callout-container.full-width.white-bg
+      img(src='https://placehold.it/600x300' gv-image -label='Second Callout Image')
+.callout-container.full-width
   .callout-wrapper.section-wrapper
     .img-area.img-left
-      img(src='https://placehold.it/600x300')
+      img(src='https://placehold.it/600x300' gv-img -label='Third Callout Image')
     .callout-headline.std-padding-left
-      h1.callout-header.teal Media
-      p.callout-subtext Find the causes you care about most. SAM (Social Action Media) will bring all of your actions together in one profile, aggregate your impact.
-.info-section.teal-bg.white.full-width
-  .info-main.section-wrapper
+      h1.callout-header.green(gv-text -label='Callout 3 Headline') Never Lose Touch of the Causes you Care About
+      p.callout-subtext(gv-textarea -label='Callout 3 Body Text') See all of your good in one place. Sign petitions, take pledges, and stay updated on the campaigns you follow.
+
+
+.benefits.white.full-width.white(-section='Benefits Section')
+  .benefits-main.section-wrapper
     .text-top
-      h1.info-header Connect Your Kindness Across the Web
-      p.info-subtext Find the causes you care about most. SAM (Social Action Media) will bring all of your actions together in one profile, aggrefate your impact, and allow you to immediately know exactly what you're doing in the world. We'll also suggest relevant actions based on your history to keep you in the loop.
-    .text-bottom
-      ul.benefits
-        li All your actions, one profile
-        li See your impact history
-        li Aggregate your social impact
-        li Stay in touch with initiatives
-        li Take action across the web
-        li Quantify your good
+      h1.benefits-header(gv-text -label='Benefits Headline') Activism Everywhere, Together.
+      p.benefits-subtext(gv-textarea -label='Benefits Body Text') SAM (Social Action Media) will bring all of your actions together in one profile, aggrefate your impact, and shows you exactly what you're doing to make an impact in the world. SAM also suggests relevant actions based on your history to keep you informed.
+    .text-bottom(-section='Benefits List')
+      ul.benefits-list
+        li(gv-text -label='Benefit 1') Take action across the web
+        li(gv-text -label='Benefit 2') See your impact history
+        li(gv-text -label='Benefit 3') All your actions, one profile
+        li(gv-text -label='Benefit 4') Stay in touch with initiatives
+        li(gv-text -label='Benefit 5') Aggregate your social impact
+        li(gv-text -label='Benefit 6') Quantify your good
 
 //- This area sucks
 
-.logos.full-width.white-bg
-  .logos-wrapper.section-wrapper.relative
-    img.desktop(src='../../assets/img/desktop.png')
-    img.logo(src='../../assets/img/logos.png')
-
+.logos.full-width
+  .logos-wrapper.section-wrapper
+    img(src='http://placehold.it/175x75')
+    img(src='http://placehold.it/175x75')
+    img(src='http://placehold.it/175x75')
+    img(src='http://placehold.it/175x75')
+    img(src='http://placehold.it/175x75')
 //- Ok good again
 
-.callout-container.full-width.grey-bg
+.callout-container.full-width(-section='Callout Section 2')
   .callout-wrapper
     .img-area.img-left
       img(src='../../assets/img/stay_connected.png')
     .callout-headline.std-padding-left
-      h1.callout-header.teal Actions are Disconnected
-      p.callout-subtext You sign the petitions, vote, and take action across the web. Where does it all go?
-.callout-container.full-width.white-bg
+      h1.callout-header.navy(gv-text -label='Callout 1 Headline') Create a Movement
+      p.callout-subtext(gv-textarea -label='Callout 1 Body Text') Upload photos, videos, and create movements that support your cause. Your campaigns can start with a petition, pledge, poll or vote. Share across social media, or embed campaigns in your site.
+.callout-container.full-width
   .callout-wrapper
     .callout-headline.std-padding-left
-      h1.callout-header.pink Tie Those Actions Together
-      p.callout-subtext SAM takes all of your actions across the platforms you're already using and displays them into one unique profile, catered to you.
+      h1.callout-header.lt-blue(gv-text -label='Callout 2 Headline') Unite an Online Community
+      p.callout-subtext(gv-textarea -label='Callout 2 Body Text') Invite your friends, see what they care about, follow, and let them join your movement. The community you're part of will allow others to rally around your caise, spreading kindness locally and all over the globe.
     .img-area.img-right
       img(src='https://placehold.it/600x300')
-.callout-container.full-width.grey-bg
+.callout-container.full-width
   .callout-wrapper
     .img-area.img-left
       img(src='https://placehold.it/600x300')
     .callout-headline.std-padding-left
-      h1.callout-header.teal Media
-      p.callout-subtext Find the causes you care about most. SAM (Social Action Media) will bring all of your actions together in one profile, aggregate your impact.
+      h1.callout-header.lt-green(gv-text -label='Callout 3 Headline') Spread Kindness, See Impact
+      p.callout-subtext(gv-textarea -label='Callout 3 Body Text') See how your movements are performing with an in-depth analytics dashboard. Share and embed wherever you want and watch your campaigns scale and grow.
 
-.features-container.full-width.teal-bg.white
+.features-container.full-width.red-bg.white(-section='features')
   .features-wrapper.section-wrapper
     .laptop
-      img(src='../../assets/img/laptop.png')
+      img(src='../../assets/img/laptop.png' gv-image)
     .features-group
       .features-headline
-        h1.features-header Impact through community
-        p.features-subtext Easily share actions across miltiple social platforms, tell your own story about the issues that matter most to you and, even create your own campaigns. Then reach out to friends and family to rally them around your cause.
-      ul.features
-        li Create petitions and polls
-        li Follow your friends
-        li Create entire campaigns
-        li Build communities around causes
-        li Share across the web
-        li View campaign performance
-
-
-
+        h1.features-header(gv-text -label='Features Headline') Build a World for Good.
+        p.features-subtext(gv-texarea -label='Features Body Text') Drive impact through community. Share the compassionate actions you've taken across multiple social platforms, tell stories about the issues that matter most, and even create your own campaigns. Then, reach out to friends to rally them around your cause. Your data-driven, real-time prodile shows the change you're making for the planet.
+      ul.features(-section='Features List')
+        li(gv-text -label='Feature 1') Take action across the web
+        li(gv-text -label='Feature 2') See your impact history
+        li(gv-text -label='Feature 3') All your actions, one profile
+        li(gv-text -label='Feature 4') Stay in touch with initiatives
+        li(gv-text -label='Feature 5') Aggregate your social impact
+        li(gv-text -label='Feature 6') Quantify your good
+footer(-section='Footer')
+  .cta-container
+    .cta-wrapper
+      h1.cta-header.navy(-label='Footer Main Header' gv-text) Access the largest network of causes you care about with SAM.
+      p.cta-subtext.navy(-label='Footer Main Subtext' gv-textbox) Access the largest network of causes you are about with SAM. Your profile let;s you track, measure and amplify your social impact over time, all around the world. Keeping you actively involved on the front lines of change.
+  #sign-up-container.sign-up-container.relative
+script(src='/dist/assets/js/app.js')
 
 
